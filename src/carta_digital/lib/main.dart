@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'views/home_screen.dart';
+import 'providers/pedido_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(    
+    ChangeNotifierProvider(
+      create: (_) => PedidoProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Carta_Digital',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -30,11 +39,11 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const HomeScreen(),
     );
   }
 }
-
+/*
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -120,3 +129,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+*/
