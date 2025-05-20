@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "512119346213",
+    "project_id": "cartadigital-139ba",
+    "storage_bucket": "cartadigital-139ba.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512119346213:android:e24063cd41c7d22b409bcc",
+        "android_client_info": {
+          "package_name": "com.example.carta_digital"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo3L92jx3CbvUr7HVbgRzxdNDdEokZFg0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
