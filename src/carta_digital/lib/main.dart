@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart'; // ¡NUEVO! Importa el paquete core de Firebase
-import 'Login/firebase_options.dart'; // ¡NUEVO! Importa el archivo de opciones generado por FlutterFire
+import 'package:firebase_core/firebase_core.dart'; // Importa el paquete core de Firebase
+import 'Login/firebase_options.dart'; // Importa el archivo de opciones generado por FlutterFire
 
 void main() async { // ¡MODIFICADO! Marca main como asíncrono
-  // ¡NUEVO! Asegura que Flutter esté inicializado antes de llamar a runApp
+  // Asegura que Flutter esté inicializado antes de llamar a runApp
   WidgetsFlutterBinding.ensureInitialized();
 
-  // ¡NUEVO! Inicializa Firebase con las opciones generadas
+  // Inicializa Firebase con las opciones generadas
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
