@@ -1,35 +1,30 @@
 import 'package:flutter/material.dart';
 import '../models/producto.dart';
+import '../models/pedido_model.dart';
 
+/// Provider que expone el estado del pedido a la UI y
+/// notifica cuando hay cambios (agregar, quitar, resetear).
 class PedidoProvider extends ChangeNotifier {
-  final Map<Producto, int> _cantidades = {};
+  final PedidoModel _pedido = PedidoModel();
 
+  /// Accede al estado actual del pedido.
+  PedidoModel get pedido => _pedido;
+
+  /// Aumenta la cantidad de un producto.
   void aumentar(Producto producto, int cantidad) {
-    _cantidades.update(producto, (value) => value + cantidad, ifAbsent: () => cantidad);
-    notifyListeners();
+    _pedido.aumentar(producto, cantidad);
+    notifyListeners(); // Notifica a los widgets para redibujar.
   }
 
+  /// Disminuye la cantidad o elimina si llega a cero.
   void disminuir(Producto producto, int cantidad) {
-    if (!_cantidades.containsKey(producto)) return;
-    final nuevoValor = _cantidades[producto]! - cantidad;
-    if (nuevoValor <= 0) {
-      _cantidades.remove(producto);
-    } else {
-      _cantidades[producto] = nuevoValor;
-    }
+    _pedido.disminuir(producto, cantidad);
     notifyListeners();
   }
 
-  Map<Producto, int> get cantidades => _cantidades;
-
-  double get total {
-    return _cantidades.entries
-        .map((e) => e.key.precio * e.value)
-        .fold(0.0, (a, b) => a + b);
-  }
-
+  /// Borra completamente el pedido.
   void resetear() {
-    _cantidades.clear();
+    _pedido.resetear();
     notifyListeners();
   }
 }
