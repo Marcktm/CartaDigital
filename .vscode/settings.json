@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "C:/Users/Federico/Documents/CartaDigital/src/carta_digital/linux"
+    "cmake.sourceDirectory": "C:/Users/Federico/Documents/CartaDigital/src/carta_digital/linux",
+    "cmake.ignoreCMakeListsMissing": true
 }

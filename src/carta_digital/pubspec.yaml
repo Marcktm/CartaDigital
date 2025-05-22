@@ -34,7 +34,7 @@ dependencies:
   firebase_core: ^2.27.0
   firebase_auth: ^4.17.9 # Para Firebase Authentication
   cloud_firestore: ^4.15.9 # Para Cloud Firestore
-
+  google_sign_in: ^6.2.1
   # La siguiente línea agrega la fuente Cupertino Icons a tu aplicación.
   # Utilízala con la clase CupertinoIcons para íconos de estilo iOS.
   cupertino_icons: ^1.0.8
