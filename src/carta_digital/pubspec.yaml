@@ -38,6 +38,7 @@ dependencies:
   # La siguiente línea agrega la fuente Cupertino Icons a tu aplicación.
   # Utilízala con la clase CupertinoIcons para íconos de estilo iOS.
   cupertino_icons: ^1.0.8
+  provider: ^6.1.5
   
 dev_dependencies:
   flutter_test:
