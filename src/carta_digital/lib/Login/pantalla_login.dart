@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
           onPressed: () async {
             await authProvider.signInWithGoogle();
             const Text("Apretaste boton");
-            // La navegación está controlada por el StreamBuilder de AuthWrapper
+            
           },
         ),
       ),
