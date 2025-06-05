@@ -3,6 +3,7 @@ import 'producto.dart';
 /// Modelo de datos que representa un pedido realizado por el usuario.
 /// Almacena productos seleccionados junto con sus cantidades.
 class PedidoModel {
+
   // Mapa privado que guarda los productos seleccionados y su cantidad
   final Map<Producto, int> _cantidades;
 

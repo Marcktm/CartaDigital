@@ -1,17 +1,16 @@
 import 'package:url_launcher/url_launcher.dart';
 
 class WhatsAppService {
-  final String numeroDestino;
+  static const String _numeroDestino = '5493515598947';
 
-  WhatsAppService({required this.numeroDestino});
-
-  Future<void> enviarMensaje(String mensaje) async {
-    final url = Uri.parse("https://wa.me/$numeroDestino?text=${Uri.encodeComponent(mensaje)}");
+  static Future<bool> enviarMensaje(String mensaje) async {
+    final url = Uri.parse("https://wa.me/$_numeroDestino?text=${Uri.encodeComponent(mensaje)}");
 
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
+      return true;
     } else {
-      throw Exception('No se pudo abrir WhatsApp');
+      return false;
     }
   }
 }

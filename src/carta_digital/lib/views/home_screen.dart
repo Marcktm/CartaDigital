@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../models/producto.dart';
-import '../models/producto_repository.dart'; // 👈 nueva clase
+import '../models/producto_repository.dart'; 
 import '../widgets/producto_card.dart';
 import '../widgets/resumen_pedido.dart';
+import 'package:provider/provider.dart';
+import '../providers/pedido_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,24 +14,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ProductoRepository repo = ProductoRepository();
-  List<Producto> empanadas = [];
-  List<Producto> bebidas = [];
-
-  Future<void> cargarProductos() async {
-    empanadas = await repo.cargarPorCategoria('comida');
-    bebidas = await repo.cargarPorCategoria('bebida');
-    setState(() {});
-  }
-
   @override
   void initState() {
     super.initState();
-    cargarProductos();
+    context.read<PedidoProvider>().cargarProductos();
   }
 
   @override
   Widget build(BuildContext context) {
+    final pedidoProvider = context.watch<PedidoProvider>();
+    final empanadas = pedidoProvider.empanadas;
+    final bebidas = pedidoProvider.bebidas;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Nombre Local de Comidas'),

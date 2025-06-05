@@ -1,5 +1,4 @@
 import '../models/pedido_model.dart';
-import '../models/producto.dart';
 
 /// Servicio que encapsula la lógica del pedido:
 /// cálculo del total, generación de texto para compartir, etc.
