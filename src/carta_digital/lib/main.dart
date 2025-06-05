@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'views/home_screen.dart';
 import 'providers/pedido_provider.dart';
+import 'firebase/firebase_options.dart';
+import 'services/servicio_autenticacion.dart';
+import 'views/pantalla_login.dart';
+import 'providers/constante_autenticacion.dart';
 
 void main() {
   runApp(    
