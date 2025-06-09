@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'services/servicio_autenticacion.dart';
+import 'package:carta_digital/services/servicio_autenticacion.dart';
 
 
 class AuthProvider extends ChangeNotifier {

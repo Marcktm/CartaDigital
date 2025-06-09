@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:carta_digital/login/constante_autenticacion.dart'; // contiene AuthProvider
+import 'package:carta_digital/providers/constante_autenticacion.dart'; // contiene AuthProvider
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -20,10 +20,19 @@ class LoginScreen extends StatelessWidget {
             textStyle: const TextStyle(fontSize: 18),
           ),
           onPressed: () async {
-            await authProvider.signInWithGoogle();
-            const Text("Apretaste boton");
-            
-          },
+            final user = await authProvider.signInWithGoogle();
+            if (user != null) {
+               ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Bienvenido ${user.displayName ?? 'usuario'}')),
+             );
+    // Aquí podrías navegar a otra pantalla si lo necesitás:
+    // Navigator.pushReplacementNamed(context, '/home');
+          } else {
+             ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Error al iniciar sesión')),
+             );
+         }
+      },
         ),
       ),
     );

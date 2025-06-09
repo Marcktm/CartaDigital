@@ -1,17 +1,29 @@
-import 'package:flutter/material.dart';
+import 'package:carta_digital/services/servicio_google_sheets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'views/home_screen.dart';
-import 'providers/pedido_provider.dart';
-import 'firebase/firebase_options.dart';
-import 'services/servicio_autenticacion.dart';
-import 'views/pantalla_login.dart';
-import 'providers/constante_autenticacion.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(    
-    ChangeNotifierProvider(
-      create: (_) => PedidoProvider(),
+import 'firebase/firebase_options.dart';
+import 'providers/pedido_provider.dart';
+import 'providers/constante_autenticacion.dart'; // contiene AuthProvider
+import 'views/pantalla_login.dart';
+import 'views/home_screen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Inicializa bindings antes de Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform, // Carga configuración de Firebase
+  );
+
+  await UserSheetApi.init();
+
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()), // Estado de login
+        ChangeNotifierProvider(create: (_) => PedidoProvider()), // Estado de pedidos
+      ],
       child: const MyApp(),
     ),
   );
@@ -20,30 +32,21 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Carta_Digital',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const HomeScreen(),
+      home: Consumer<AuthProvider>(
+        builder: (context, authProvider, _) {
+          // Si no hay usuario, va a Login; si hay usuario, va a HomeScreen original
+          return authProvider.user == null
+              ? const LoginScreen()
+              : const HomeScreen(); // Tu pantalla de inicio personalizada
+        },
+      ),
     );
   }
 }

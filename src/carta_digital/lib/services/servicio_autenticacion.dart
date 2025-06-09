@@ -1,11 +1,21 @@
+import 'package:carta_digital/models/usuario_model.dart';
+import 'package:carta_digital/services/servicio_google_sheets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+
 
 class ServicioAutenticacion {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  
+final GoogleSignIn _googleSignIn = GoogleSignIn(
+  clientId: kIsWeb
+      ? '512119346213-u3v4jiqkpjb50icjsmqmb49jf8lrin6q.apps.googleusercontent.com'
+      : null,
+);
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
 
   Future<User?> signInWithGoogle() async {
     try {
@@ -36,6 +46,12 @@ class ServicioAutenticacion {
       } else {
         print('Usuario ya existe');
       }
+
+      final usuario = {
+        ModeloUsuario.nombre : user.displayName,
+        ModeloUsuario.correoelectronico : user.email,
+      };
+      await UserSheetApi.insert([usuario]);
 
       return user;
     } catch (e) {
