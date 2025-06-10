@@ -61,9 +61,15 @@ if (_userSheet == null ){
   return null;
 }
 _userSheet!.values.map.appendRows(listaFila);
-
-
 }
+
+static Future<List<String>> getFirstColumn() async {
+  final column = await _userSheet!.values.column(2);
+  
+  return column.where((value) => value.isNotEmpty).toList();
+}
+
+
  
 
 }

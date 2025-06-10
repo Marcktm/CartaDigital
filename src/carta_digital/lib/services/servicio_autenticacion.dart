@@ -49,10 +49,16 @@ final GoogleSignIn _googleSignIn = GoogleSignIn(
       }
 
       final usuario = {
-        ModeloUsuario.nombre : user.displayName,
+        ModeloUsuario.nombre : user.uid,
         ModeloUsuario.correoelectronico : user.email,
       };
-      await UserSheetApi.insert([usuario]);
+      final primeracolumna = await UserSheetApi.getFirstColumn();
+      final esta = primeracolumna.contains(user.uid);
+      if (!esta){
+            await UserSheetApi.insert([usuario]);
+
+      }
+    
 
       return user;
     } catch (e) {
