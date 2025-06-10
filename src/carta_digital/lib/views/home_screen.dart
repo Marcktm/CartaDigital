@@ -3,6 +3,7 @@ import '../models/producto.dart';
 import '../models/producto_repository.dart'; // 👈 nueva clase
 import '../widgets/producto_card.dart';
 import '../widgets/resumen_pedido.dart';
+import '../widgets/randomwidgets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,6 +36,11 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Nombre Local de Comidas'),
         backgroundColor: const Color.fromARGB(255, 255, 68, 0),
         foregroundColor: Colors.white,
+        actions: const [
+        Padding(
+            padding: EdgeInsets.only(right: 8.0),
+            child: LogoutButton(),
+                ),],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),

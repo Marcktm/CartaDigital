@@ -19,6 +19,7 @@ final GoogleSignIn _googleSignIn = GoogleSignIn(
 
   Future<User?> signInWithGoogle() async {
     try {
+      
       final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) return null;
 
