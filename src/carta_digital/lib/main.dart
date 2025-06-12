@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase/firebase_options.dart';
 import 'providers/pedido_provider.dart';
-import 'providers/constante_autenticacion.dart'; // contiene AuthProvider
+import 'providers/constante_autenticacion.dart'; 
 import 'views/pantalla_login.dart';
 import 'views/home_screen.dart';
 
@@ -15,7 +15,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform, // Carga configuración de Firebase
   );
 
-  await UserSheetApi.init();
+  await UserSheetApi.getinstance().init();
+
 
 
   runApp(

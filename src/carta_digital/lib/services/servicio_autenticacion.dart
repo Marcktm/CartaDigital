@@ -52,10 +52,10 @@ final GoogleSignIn _googleSignIn = GoogleSignIn(
         ModeloUsuario.nombre : user.uid,
         ModeloUsuario.correoelectronico : user.email,
       };
-      final primeracolumna = await UserSheetApi.getFirstColumn();
+      final primeracolumna = await UserSheetApi.getinstance().getFirstColumn();
       final esta = primeracolumna.contains(user.uid);
       if (!esta){
-            await UserSheetApi.insert([usuario]);
+            await UserSheetApi.getinstance().insert([usuario]);
 
       }
     

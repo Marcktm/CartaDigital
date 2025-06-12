@@ -21,50 +21,77 @@ static const _credentials = r'''
 ''';
 
 
-static final _spreedsheetId = '1FE2F6plcd5XHAVD4lYDMRFaTrfE9kJg5BMgI6JfxH9s';
-static final _gsheets = GSheets(_credentials);
-static Worksheet? _userSheet;
+final _spreedsheetId = '1FE2F6plcd5XHAVD4lYDMRFaTrfE9kJg5BMgI6JfxH9s';
+final _gsheets = GSheets(_credentials);
+Worksheet? _userSheet;
+ 
+static final UserSheetApi _instance = UserSheetApi._internal();
+
+
+ static UserSheetApi getinstance(){
+
+  return _instance;
+ }
+
+ UserSheetApi._internal();
+
+
 
 
 // Inicializa la lista
-static Future init () async {
+Future init () async {
+   if (_userSheet != null){
+       return; 
+}
+else {
  try {
  final spreadsheet = await _gsheets.spreadsheet(_spreedsheetId); 
  _userSheet = await _getWorkSheet(spreadsheet , title: 'Usuarios');
 
 final primeraFila = ModeloUsuario.getDatos();
-_userSheet!.values.insertRow(1, primeraFila);
+  await _userSheet!.values.insertRow(1, primeraFila);
  }
 catch(e){
   return null;
 }
 }
+}
 
 // Metodo que te devuelve el worksheet que queres
 
-static Future <Worksheet> _getWorkSheet(
+Future<Worksheet> _getWorkSheet(
   Spreadsheet spreadsheet, {
-    required String title,
-  })
-  async{
-    try {
-      return await spreadsheet.addWorksheet(title);
+  required String title,
+}) async {
+  try {
+    return await spreadsheet.addWorksheet(title);
+  } catch (e) {
+    final sheet = await spreadsheet.worksheetByTitle(title);
+    if (sheet == null) {
+      throw Exception('Worksheet $title not found and could not be created.');
     }
-    catch(e){
-      return await spreadsheet.worksheetByTitle(title)!;
-
-    }
+    return sheet;
   }
+}
 
-static Future insert (List<Map<String, dynamic>> listaFila) async {
+
+ Future insert (List<Map<String, dynamic>> listaFila) async {
+    await init();
 if (_userSheet == null ){
   return null;
 }
-_userSheet!.values.map.appendRows(listaFila);
+final rows = listaFila.map((fila) => [
+  fila[ModeloUsuario.nombre],
+  fila[ModeloUsuario.correoelectronico],
+]).toList();
+
+await _userSheet!.values.appendRows(rows);
+
 }
 
-static Future<List<String>> getFirstColumn() async {
-  final column = await _userSheet!.values.column(2);
+ Future<List<String>> getFirstColumn() async {
+    await init();
+  final column = await _userSheet!.values.column(1);
   
   return column.where((value) => value.isNotEmpty).toList();
 }
