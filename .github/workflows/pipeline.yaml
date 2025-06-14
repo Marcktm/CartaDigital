@@ -13,15 +13,14 @@ jobs:
       - name: checkcode
         uses: actions/checkout@v4 # clona el ropositorio
 
-      - name: posicionarnos
-        run: cd src/carta_digital/
-        
-    
+
       - name: levantarflutter #levanto flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.29.3' # reemplazá por tu versión
           channel: 'stable'
+
+
       - name: Cache Flutter dependencies
         uses: actions/cache@v4
         with:
@@ -30,17 +29,25 @@ jobs:
           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
           restore-keys: ${{ runner.os }}-pub-
       
+
       - name: instalardependencias 
         run: flutter pub get
+        working-directory: src/carta_digital
+
 
       - name: analizar codigo
         run: flutter analyze
+        working-directory: src/carta_digital
+
 
       - name: Correr pruebas
         run: flutter test
+        working-directory: src/carta_digital
+
 
       - name: Cremos la apk
         run: flutter build apk --release
+        working-directory: src/carta_digital
 
 
 
