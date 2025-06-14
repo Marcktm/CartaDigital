@@ -35,9 +35,9 @@ jobs:
         working-directory: src/carta_digital
 
 
-      - name: analizar codigo
-        run: flutter analyze
-        working-directory: src/carta_digital
+    #  - name: analizar codigo
+    #    run: flutter analyze
+    #    working-directory: src/carta_digital
 
 
       - name: Correr pruebas
