@@ -49,6 +49,12 @@ jobs:
         run: flutter build apk --release
         working-directory: src/carta_digital
 
+      - name: subir apk
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.apk
+          path: src/carta_digital/build/app/outputs/flutter-apk/app-release.apk
+        
 
 
     
