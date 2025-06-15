@@ -5,21 +5,26 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
-
 class ServicioAutenticacion {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth;
+  final GoogleSignIn _googleSignIn;
+  final FirebaseFirestore _firestore;
+  final UserSheetApi _sheetApi;
+
   
-final GoogleSignIn _googleSignIn = GoogleSignIn(
-  clientId: kIsWeb
-      ? '512119346213-u3v4jiqkpjb50icjsmqmb49jf8lrin6q.apps.googleusercontent.com'
-      : null,
-);
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  ServicioAutenticacion()
+      : _auth = FirebaseAuth.instance,
+        _googleSignIn = GoogleSignIn(
+          clientId: kIsWeb
+              ? '512119346213-u3v4jiqkpjb50icjsmqmb49jf8lrin6q.apps.googleusercontent.com'
+              : null,
+        ),
+        _firestore = FirebaseFirestore.instance,
+        _sheetApi = UserSheetApi.getinstance();
 
-
+  
   Future<User?> signInWithGoogle() async {
     try {
-      
       final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) return null;
 
@@ -49,16 +54,14 @@ final GoogleSignIn _googleSignIn = GoogleSignIn(
       }
 
       final usuario = {
-        ModeloUsuario.nombre : user.uid,
-        ModeloUsuario.correoelectronico : user.email,
+        ModeloUsuario.nombre: user.uid,
+        ModeloUsuario.correoelectronico: user.email,
       };
-      final primeracolumna = await UserSheetApi.getinstance().getFirstColumn();
+      final primeracolumna = await _sheetApi.getFirstColumn();
       final esta = primeracolumna.contains(user.uid);
-      if (!esta){
-            await UserSheetApi.getinstance().insert([usuario]);
-
+      if (!esta) {
+        await _sheetApi.insert([usuario]);
       }
-    
 
       return user;
     } catch (e) {
