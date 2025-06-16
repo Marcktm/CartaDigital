@@ -46,7 +46,7 @@ jobs:
 
 
       - name: Cremos la apk
-        run: flutter build apk --release
+        run: flutter build apk --debug
         working-directory: src/carta_digital
 
       - name: subir apk
