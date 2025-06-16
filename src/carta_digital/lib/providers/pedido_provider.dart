@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/pedido_model.dart';
 import '../models/producto.dart';
-import '../models/pedido_service.dart';
-import '../models/whatsapp_service.dart';
+import '../services/pedido_service.dart';
+import '../services/whatsapp_service.dart';
 import '../models/producto_repository.dart';
 
 class PedidoProvider extends ChangeNotifier {

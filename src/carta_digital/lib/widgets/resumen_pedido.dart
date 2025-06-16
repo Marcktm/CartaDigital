@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/pedido_provider.dart';
-import '../models/pedido_service.dart';
+import '../services/pedido_service.dart';
 import 'package:carta_digital/widgets/realizar_pedido_button.dart';
 import 'package:carta_digital/widgets/resetear_pedido_button.dart';
 
