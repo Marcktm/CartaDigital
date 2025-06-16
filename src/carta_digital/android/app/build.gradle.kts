@@ -30,10 +30,19 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+    release {
+        storeFile file("release-key.jks")
+        storePassword "cartadigital2025"
+        keyAlias "release-key"
+        keyPassword "cartadigital2025"
+    }
+}
+
     buildTypes {
-        release {
-            signingConfig = signingConfigs.getByName("debug")
-        }
+    release {
+        signingConfig signingConfigs.release
+    }
     }
 }
 

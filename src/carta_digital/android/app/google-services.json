@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "512119346213-fjjipdhb6oifuqvtf34cfnnhg199muad.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.carta_digital",
+            "certificate_hash": "cb4ecd90501bb3ba81efa864dbb70459e54b39d8"
+          }
+        },
+        {
           "client_id": "512119346213-e61huqakos41muvtj9dkuikgnqfsguie.apps.googleusercontent.com",
           "client_type": 3
         }
