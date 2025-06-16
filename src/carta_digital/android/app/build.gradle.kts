@@ -29,10 +29,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("release-key.jks")
-            storePassword = System.getenv("RELEASE_KEYSTORE_PASSWORD")
-            keyAlias = System.getenv("RELEASE_KEY_ALIAS")
-            keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+            storeFile file("release-key.jks")
+            storePassword "cartadigital2025"
+            keyAlias "release-key"
+            keyPassword "cartadigital2025"
         }
     }
 
