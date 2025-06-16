@@ -2,7 +2,7 @@ name: pipelineccicd
 
 on:
   push:
-    branches: [merginincioconfunciones,develop,main]
+    branches: [merginincioconfunciones,develop,main,mergeFuncionesCartaInicio]
 
 
 jobs: 
