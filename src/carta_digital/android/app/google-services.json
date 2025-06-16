@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "512119346213",
+    "project_id": "cartadigital-139ba",
+    "storage_bucket": "cartadigital-139ba.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512119346213:android:e24063cd41c7d22b409bcc",
+        "android_client_info": {
+          "package_name": "com.example.carta_digital"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512119346213-2ircvi5h14eb8jkc3qcd76ntsn3dqjs5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.carta_digital",
+            "certificate_hash": "b6a4923d3a65eacb4d34728dc93bb1fc8f73744c"
+          }
+        },
+        {
+          "client_id": "512119346213-edptidpai39abugp8n3qdni6kl5uu7f3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.carta_digital",
+            "certificate_hash": "be67417afbffa74d32b74af5bf76bfd0d80268a5"
+          }
+        },
+        {
+          "client_id": "512119346213-e61huqakos41muvtj9dkuikgnqfsguie.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo3L92jx3CbvUr7HVbgRzxdNDdEokZFg0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512119346213-e61huqakos41muvtj9dkuikgnqfsguie.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "512119346213-bn39r1gdti2a2u7s8s23771cm6961c2f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cartaDigital"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

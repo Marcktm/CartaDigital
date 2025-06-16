@@ -43,13 +43,13 @@ Future init () async {
    if (_userSheet != null){
        return; 
 }
-else {
- try {
- final spreadsheet = await _gsheets.spreadsheet(_spreedsheetId); 
- _userSheet = await _getWorkSheet(spreadsheet , title: 'Usuarios');
+      else {
+          try {
+          final spreadsheet = await _gsheets.spreadsheet(_spreedsheetId); 
+          _userSheet = await _getWorkSheet(spreadsheet , title: 'Usuarios');
 
-final primeraFila = ModeloUsuario.getDatos();
-  await _userSheet!.values.insertRow(1, primeraFila);
+          final primeraFila = ModeloUsuario.getDatos();
+          await _userSheet!.values.insertRow(1, primeraFila);
  }
 catch(e){
   return null;
