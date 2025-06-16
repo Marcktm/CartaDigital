@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 import 'package:carta_digital/models/pedido_model.dart';
-import 'package:carta_digital/models/pedido_service.dart';
+import 'package:carta_digital/services/pedido_service.dart';
 import 'package:carta_digital/models/producto.dart';
 
 void main() {
