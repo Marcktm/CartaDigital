@@ -1,0 +1,61 @@
+name: pipelineccicd
+
+on:
+  push:
+    branches: [merginincioconfunciones,develop,main]
+
+
+jobs: 
+  build: 
+    runs-on: ubuntu-latest  # que se corra en ubuntu
+
+    steps: 
+      - name: checkcode
+        uses: actions/checkout@v4 # clona el ropositorio
+
+
+      - name: levantarflutter #levanto flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.3' # reemplazá por tu versión
+          channel: 'stable'
+
+
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            '~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: ${{ runner.os }}-pub-
+      
+
+      - name: instalardependencias 
+        run: flutter pub get
+        working-directory: src/carta_digital
+
+
+    #  - name: analizar codigo
+    #    run: flutter analyze
+    #    working-directory: src/carta_digital
+
+
+      - name: Correr pruebas
+        run: flutter test
+        working-directory: src/carta_digital
+
+
+      - name: Cremos la apk
+        run: flutter build apk --release
+        working-directory: src/carta_digital
+
+      - name: subir apk
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.apk
+          path: src/carta_digital/build/app/outputs/flutter-apk/app-release.apk
+        
+
+
+    
+      
