@@ -28,14 +28,13 @@ android {
     }
 
     signingConfigs {
-            create("release") {
-             storeFile = project.file("release-key.jks")
-            storePassword = System.getenv("RELEASE_KEYSTORE_PASSWORD")
-            keyAlias = System.getenv("RELEASE_KEY_ALIAS")
-            keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+        create("release") {
+            storeFile = project.file("release-key.jks")
+            storePassword = System.getenv("RELEASE_STORE_PASSWORD") 
+            keyAlias = System.getenv("RELEASE_KEY_ALIAS")          
+            keyPassword = System.getenv("RELEASE_KEY_PASSWORD")    
+        }
     }
-}
-
 
     buildTypes {
         getByName("release") {
