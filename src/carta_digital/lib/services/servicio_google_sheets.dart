@@ -97,6 +97,10 @@ await _userSheet!.values.appendRows(rows); // Añade los valores a la fila
 }
 
 
- 
+
+
+Future<Spreadsheet> getSpreedsheet() async {
+  return await _gsheets.spreadsheet(_spreedsheetId);
+}
 
 }
