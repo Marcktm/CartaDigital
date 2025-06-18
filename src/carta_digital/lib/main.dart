@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
           // Si no hay usuario, va a Login; si hay usuario, va a HomeScreen original
           return authProvider.user == null
               ? const LoginScreen()
-              : const HomeScreen(); // Tu pantalla de inicio personalizada
+              : const HomeScreen(); 
         },
       ),
     );

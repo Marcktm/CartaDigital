@@ -2,61 +2,53 @@ name: pipelineccicd
 
 on:
   push:
-    branches: [merginincioconfunciones,develop,main,mergeFuncionesCartaInicio]
+    branches: [merginincioconfunciones,develop,main]
 
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-jobs: 
-  build: 
-    runs-on: ubuntu-latest  # que se corra en ubuntu
-
-    steps: 
+    steps:
       - name: checkcode
-        uses: actions/checkout@v4 # clona el ropositorio
+        uses: actions/checkout@v4
 
-
-      - name: levantarflutter #levanto flutter
+      - name: levantarflutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.3' # reemplazá por tu versión
+          flutter-version: '3.29.3'
           channel: 'stable'
-
 
       - name: Cache Flutter dependencies
         uses: actions/cache@v4
         with:
           path: |
-            '~/.pub-cache
+            ~/.pub-cache
           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
           restore-keys: ${{ runner.os }}-pub-
-      
 
-      - name: instalardependencias 
+      - name: instalardependencias
         run: flutter pub get
         working-directory: src/carta_digital
-
-
-    #  - name: analizar codigo
-    #    run: flutter analyze
-    #    working-directory: src/carta_digital
-
 
       - name: Correr pruebas
         run: flutter test
         working-directory: src/carta_digital
 
+      - name: Decodificar release keystore
+        run: echo "${{ secrets.RELEASE_KEYSTORE }}" | base64 -d > src/carta_digital/android/app/release-key.jks
+
+      - name: Exportar variables de entorno para firma
+        run: |
+          echo "RELEASE_STORE_PASSWORD=${{ secrets.RELEASE_STORE_PASSWORD }}" >> $GITHUB_ENV
+          echo "RELEASE_KEY_ALIAS=${{ secrets.RELEASE_KEY_ALIAS }}" >> $GITHUB_ENV
+          echo "RELEASE_KEY_PASSWORD=${{ secrets.RELEASE_KEY_PASSWORD }}" >> $GITHUB_ENV
 
       - name: Cremos la apk
-        run: flutter build apk --debug
+        run: flutter build apk --release
         working-directory: src/carta_digital
 
       - name: subir apk
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug.apk
-          path: src/carta_digital/build/app/outputs/flutter-apk/app-debug.apk
-
-        
-
-
-    
-      
+          name: app-release.apk
+          path: src/carta_digital/build/app/outputs/flutter-apk/app-release.apk

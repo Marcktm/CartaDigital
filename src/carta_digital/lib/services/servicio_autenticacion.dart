@@ -15,8 +15,8 @@ class ServicioAutenticacion {
   ServicioAutenticacion()
       : _auth = FirebaseAuth.instance,
         _googleSignIn = GoogleSignIn(
-          clientId: kIsWeb
-              ? '512119346213-u3v4jiqkpjb50icjsmqmb49jf8lrin6q.apps.googleusercontent.com'
+          clientId: kIsWeb  //se le asigna el id del cliente solo si se corre en web
+              ? '512119346213-u3v4jiqkpjb50icjsmqmb49jf8lrin6q.apps.googleusercontent.com' //identificador de la aplicacion
               : null,
         ),
         _firestore = FirebaseFirestore.instance,
@@ -25,16 +25,16 @@ class ServicioAutenticacion {
   
   Future<User?> signInWithGoogle() async {
     try {
-      final googleUser = await _googleSignIn.signIn();
+      final googleUser = await _googleSignIn.signIn();  
       if (googleUser == null) return null;
 
-      final googleAuth = await googleUser.authentication;
-      final credential = GoogleAuthProvider.credential(
+      final googleAuth = await googleUser.authentication; //Obtiene las credenciales 
+      final credential = GoogleAuthProvider.credential( //crea las credenciales en firebase
         idToken: googleAuth.idToken,
         accessToken: googleAuth.accessToken,
       );
 
-      final userCredential = await _auth.signInWithCredential(credential);
+      final userCredential = await _auth.signInWithCredential(credential); //Usa las credenciales para para iniciar sesion
       final user = userCredential.user;
       if (user == null) return null;
 
@@ -53,13 +53,13 @@ class ServicioAutenticacion {
         print('Usuario ya existe');
       }
 
-      final usuario = {
+      final usuario = {    //Usa un modelo de usuario que luego verifica si esta presente en la planilla de googlesheet
         ModeloUsuario.nombre: user.uid,
         ModeloUsuario.correoelectronico: user.email,
       };
-      final primeracolumna = await _sheetApi.getFirstColumn();
-      final esta = primeracolumna.contains(user.uid);
-      if (!esta) {
+      final primeracolumna = await _sheetApi.getFirstColumn(); //Pide la primer columna de la planilla
+      final esta = primeracolumna.contains(user.uid); //Compara las uid de la planilla con la del usuario
+      if (!esta) {     // Si no esta se agrega al usuario a la planilla
         await _sheetApi.insert([usuario]);
       }
 
@@ -70,10 +70,10 @@ class ServicioAutenticacion {
     }
   }
 
-  Future<void> signOut() async {
-    await _googleSignIn.signOut();
-    await _auth.signOut();
+  Future<void> signOut() async { //S
+    await _googleSignIn.signOut(); //cierra sesion en google
+    await _auth.signOut();  //cierra sesion en firebase
   }
 
-  User? get currentUser => _auth.currentUser;
+  User? get currentUser => _auth.currentUser; //Devuleve el usuario que esta autenticado si es que hay uno
 }

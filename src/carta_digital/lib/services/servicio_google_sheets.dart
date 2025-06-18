@@ -3,8 +3,8 @@ import 'package:gsheets/gsheets.dart';
 
 
 class UserSheetApi{
-
-static const _credentials = r'''
+                                            //Json con todas las credenciales
+static const _credentials = r''' 
 {
   "type": "service_account",
   "project_id": "cartadigital-139ba",
@@ -21,74 +21,74 @@ static const _credentials = r'''
 ''';
 
 
-final _spreedsheetId = '1FE2F6plcd5XHAVD4lYDMRFaTrfE9kJg5BMgI6JfxH9s';
-final _gsheets = GSheets(_credentials);
-Worksheet? _userSheet;
+final _spreedsheetId = '1FE2F6plcd5XHAVD4lYDMRFaTrfE9kJg5BMgI6JfxH9s';   //Id del la spreedsheet
+final _gsheets = GSheets(_credentials); //Autenticacion 
+Worksheet? _userSheet;    //Hoja de la spreedsheet en la que se esta trabajando
  
-static final UserSheetApi _instance = UserSheetApi._internal();
+static final UserSheetApi _instance = UserSheetApi._internal();  //Declaro el campo estatico privado y utilizo un constructor privado
 
 
- static UserSheetApi getinstance(){
 
-  return _instance;
+ static UserSheetApi getinstance(){ //devuelve la instancia
+    return _instance;
  }
 
- UserSheetApi._internal();
+ UserSheetApi._internal(); //Nadie fuera de la clase puede generar nuevas instancias ya que este es su constructor privado
 
 
 
 
-// Inicializa la lista
-Future init () async {
-   if (_userSheet != null){
+// Incializo los atributos clase
+Future init () async {  
+   if (_userSheet != null){ //Si tengo un usersheet lo devuelve
        return; 
 }
-else {
- try {
- final spreadsheet = await _gsheets.spreadsheet(_spreedsheetId); 
- _userSheet = await _getWorkSheet(spreadsheet , title: 'Usuarios');
+      else {  
+          try {
+          final spreadsheet = await _gsheets.spreadsheet(_spreedsheetId);  //obtengo la spreedsheet
+          _userSheet = await _getWorkSheet(spreadsheet , title: 'Usuarios'); //obtengo la hoja usuarios
 
-final primeraFila = ModeloUsuario.getDatos();
-  await _userSheet!.values.insertRow(1, primeraFila);
+          final primeraFila = ModeloUsuario.getDatos(); 
+          await _userSheet!.values.insertRow(1, primeraFila); // en la primer fila pongo uid y mail 
  }
-catch(e){
-  return null;
-}
+    catch(e){
+      return null;
+    }
 }
 }
 
 // Metodo que te devuelve el worksheet que queres
 
-Future<Worksheet> _getWorkSheet(
+Future<Worksheet> _getWorkSheet(  
   Spreadsheet spreadsheet, {
   required String title,
-}) async {
-  try {
-    return await spreadsheet.addWorksheet(title);
+  }) async {
+    try {
+      return await spreadsheet.addWorksheet(title);  //Crea y devuelve la hoja que necesitas a menos que surja un error
   } catch (e) {
-    final sheet = await spreadsheet.worksheetByTitle(title);
-    if (sheet == null) {
-      throw Exception('Worksheet $title not found and could not be created.');
-    }
+      final sheet = await spreadsheet.worksheetByTitle(title);  // Busca una hoja con el nombre que queres
+      if (sheet == null) { // chequea si la hoja no se encontro
+          throw Exception('Worksheet $title no fue encontrada.');  
+      }
     return sheet;
   }
 }
 
 
  Future insert (List<Map<String, dynamic>> listaFila) async {
-    await init();
-if (_userSheet == null ){
-  return null;
+     await init(); //Espera que este incializado los valores de la instancia
+        if (_userSheet == null ){ //Si la hoja es null retorna null
+            return null;
+      }
+      final rows = listaFila.map((fila) => [
+          fila[ModeloUsuario.nombre],
+          fila[ModeloUsuario.correoelectronico],
+] ).toList();
+
+await _userSheet!.values.appendRows(rows); // Añade los valores a la fila 
 }
-final rows = listaFila.map((fila) => [
-  fila[ModeloUsuario.nombre],
-  fila[ModeloUsuario.correoelectronico],
-]).toList();
 
-await _userSheet!.values.appendRows(rows);
-
-}
-
+//Devuelve en una lista de strings los valores contenidos en la primer columna
  Future<List<String>> getFirstColumn() async {
     await init();
   final column = await _userSheet!.values.column(1);
@@ -97,6 +97,10 @@ await _userSheet!.values.appendRows(rows);
 }
 
 
- 
+
+
+Future<Spreadsheet> getSpreedsheet() async {
+  return await _gsheets.spreadsheet(_spreedsheetId);
+}
 
 }
