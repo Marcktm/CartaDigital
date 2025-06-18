@@ -1,15 +1,20 @@
 import '../models/pedido_model.dart';
 import '../strategies/precio_strategy.dart';
+import '../strategies/resumen_strategy.dart';
+import '../models/producto.dart';
 
 enum TipoProducto { comida, bebida }
 
 class PedidoService {
   final PedidoModel _pedido;
+  ResumenStrategy _estrategiaResumen;
 
-  PedidoService(this._pedido);
+  PedidoService(this._pedido, [this._estrategiaResumen = const ResumenWhatsappStrategy()]);
+
+  PedidoModel get pedido => _pedido;
 
   /// 👇 Esta función encapsula el cálculo por producto con Strategy
-  double _calcularSubtotal(producto, cantidad) {
+  double _calcularSubtotal(Producto producto, int cantidad) {
     if (producto.categoria == "comida") {
       PrecioStrategy estrategia;
 
@@ -34,19 +39,16 @@ class PedidoService {
         .fold(0.0, (a, b) => a + b);
   }
 
-  /// Genera un resumen usando la misma lógica
+  /// Setter para cambiar la estrategia en tiempo de ejecución
+  void set estrategiaResumen(ResumenStrategy estrategia) {
+    _estrategiaResumen = estrategia;
+  }
+
+  /// Genera un resumen usando la estrategia actual
   String generarResumenTexto() {
-    if (_pedido.cantidades.isEmpty) {
-      return "No se han agregado productos al pedido.";
+    if (_estrategiaResumen == null) {
+      throw Exception('No se ha definido una estrategia para generar el resumen');
     }
-
-    final buffer = StringBuffer();
-    _pedido.cantidades.forEach((producto, cantidad) {
-      final subtotal = _calcularSubtotal(producto, cantidad);
-      buffer.writeln('${producto.nombre} x$cantidad - \$${subtotal.toStringAsFixed(2)}');
-    });
-
-    buffer.writeln('\nTotal: \$${calcularTotal().toStringAsFixed(2)}');
-    return buffer.toString();
+    return _estrategiaResumen.generarResumen(this);
   }
 }

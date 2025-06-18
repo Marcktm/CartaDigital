@@ -4,6 +4,9 @@ import '../models/producto.dart';
 import '../services/pedido_service.dart';
 import '../services/whatsapp_service.dart';
 import '../models/producto_repository.dart';
+import '../strategies/resumen_strategy.dart';
+
+
 
 class PedidoProvider extends ChangeNotifier {
   final PedidoModel _pedido = PedidoModel();
@@ -14,6 +17,9 @@ class PedidoProvider extends ChangeNotifier {
   List<Producto> _bebidas = [];
   List<Producto> get empanadas => _empanadas;
   List<Producto> get bebidas => _bebidas;
+
+  ResumenStrategy _estrategiaResumen = ResumenWhatsappStrategy();
+
 
   Future<void> cargarProductos() async {
     _empanadas = await _repo.cargarPorCategoria('comida');
@@ -37,17 +43,29 @@ class PedidoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Esta función solo retorna si el envío fue exitoso.
   Future<bool> realizarPedido() async {
-    final servicio = PedidoService(_pedido);
-    final resumen = servicio.generarResumenTexto();
+  final servicio = PedidoService(_pedido, _estrategiaResumen);
+  final resumen = servicio.generarResumenTexto();
 
-    try {
-      await WhatsAppService.enviarMensaje(resumen);
-      resetear(); // resetea solo si salió bien
-      return true;
-    } catch (_) {
-      return false;
-    }
+  try {
+    await WhatsAppService.enviarMensaje(resumen);
+    resetear(); // resetea solo si salió bien
+    return true;
+  } catch (_) {
+    return false;
   }
+  }
+
+  void cambiarEstrategiaResumen(ResumenStrategy estrategia) {
+    _estrategiaResumen = estrategia;
+    notifyListeners();
+  }
+
+  String obtenerResumen() {
+    final servicio = PedidoService(_pedido, _estrategiaResumen);
+    return servicio.generarResumenTexto();
+  }
+
+  ResumenStrategy get estrategiaResumen => _estrategiaResumen;
+
 }

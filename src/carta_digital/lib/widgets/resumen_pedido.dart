@@ -5,31 +5,36 @@ import '../services/pedido_service.dart';
 import 'package:carta_digital/widgets/realizar_pedido_button.dart';
 import 'package:carta_digital/widgets/resetear_pedido_button.dart';
 
-
 class ResumenPedido extends StatelessWidget {
   const ResumenPedido({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final pedido = context.watch<PedidoProvider>().pedido;
-    final servicio = PedidoService(pedido);
+    final provider = context.watch<PedidoProvider>();
+    final pedido = provider.pedido;
+    final estrategia = provider.estrategiaResumen;
+    final servicio = PedidoService(pedido, estrategia);
 
     return botonesFinal(servicio);
   }
 
   Widget botonesFinal(PedidoService servicio) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        "Total: \$${servicio.calcularTotal().toStringAsFixed(2)}",
-        style: const TextStyle(fontSize: 20),
-      ),
-      const SizedBox(height: 10),
-      const ResetearPedidoButton(),
-      const SizedBox(height: 10),
-      const RealizarPedidoButton(),
-    ],
-  );
-}
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // ✅ Texto generado por la estrategia
+        Text(
+          servicio.generarResumenTexto(),
+          style: const TextStyle(
+            fontSize: 16,
+            fontFamily: 'monospace', // opcional, para estilo tipo ticket/comanda
+          ),
+        ),
+        const SizedBox(height: 10),
+        const ResetearPedidoButton(),
+        const SizedBox(height: 10),
+        const RealizarPedidoButton(),
+      ],
+    );
+  }
 }
