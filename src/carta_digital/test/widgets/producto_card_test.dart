@@ -12,6 +12,7 @@ void main() {
       nombre: 'Empanada',
       precio: 100, // 👈 Se espera que se muestre como "$100"
       categoria: 'comida',
+      stock: true
     );
 
     // Act: Montar el widget con Provider, MaterialApp y Scaffold

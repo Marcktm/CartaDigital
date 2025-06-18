@@ -5,7 +5,7 @@ import 'package:carta_digital/providers/pedido_provider.dart';
 void main() {
   test('aumentar agrega el producto correctamente', () {
     final provider = PedidoProvider();
-    final producto = Producto(nombre: 'Empanada', precio: 100, categoria: 'comida');
+    final producto = Producto(nombre: 'Empanada', precio: 100, categoria: 'comida', stock: true);
 
     provider.aumentar(producto, 1);
 
@@ -14,7 +14,7 @@ void main() {
 
   test('disminuir reduce la cantidad correctamente', () {
     final provider = PedidoProvider();
-    final producto = Producto(nombre: 'Empanada', precio: 100, categoria: 'comida');
+    final producto = Producto(nombre: 'Empanada', precio: 100, categoria: 'comida', stock: true);
 
     provider.aumentar(producto, 2);
     provider.disminuir(producto, 1);
@@ -24,7 +24,7 @@ void main() {
 
   test('resetear borra todos los productos', () {
     final provider = PedidoProvider();
-    final producto = Producto(nombre: 'Empanada', precio: 100, categoria: 'comida');
+    final producto = Producto(nombre: 'Empanada', precio: 100, categoria: 'comida', stock: true);
 
     provider.aumentar(producto, 3);
     provider.resetear();

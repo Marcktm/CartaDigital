@@ -10,6 +10,10 @@ class RealizarPedidoButton extends StatelessWidget {
     return ElevatedButton.icon(
       icon: const Icon(Icons.send),
       label: const Text('Enviar pedido por WhatsApp'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.green, // ← fondo verde
+        foregroundColor: Colors.white, // ← texto e ícono en blanco
+      ),
       onPressed: () async {
         final provider = context.read<PedidoProvider>();
         final exito = await provider.realizarPedido();

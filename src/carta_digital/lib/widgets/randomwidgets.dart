@@ -43,7 +43,8 @@ class LogoutButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         textStyle: const TextStyle(fontSize: 16),
-        backgroundColor: Colors.red,
+        backgroundColor: const Color.fromARGB(255, 3, 64, 88),
+        foregroundColor: Colors.white, // ← texto e ícono en blanco
       ),
       onPressed: () async {
         await authProvider.signOut();

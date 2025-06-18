@@ -24,6 +24,7 @@ static const _credentials = r'''
 final _spreedsheetId = '1FE2F6plcd5XHAVD4lYDMRFaTrfE9kJg5BMgI6JfxH9s';   //Id del la spreedsheet
 final _gsheets = GSheets(_credentials); //Autenticacion 
 Worksheet? _userSheet;    //Hoja de la spreedsheet en la que se esta trabajando
+Worksheet? _userSheet2;
  
 static final UserSheetApi _instance = UserSheetApi._internal();  //Declaro el campo estatico privado y utilizo un constructor privado
 
@@ -40,14 +41,14 @@ static final UserSheetApi _instance = UserSheetApi._internal();  //Declaro el ca
 
 // Incializo los atributos clase
 Future init () async {  
-   if (_userSheet != null){ //Si tengo un usersheet lo devuelve
+   if (_userSheet != null && _userSheet2 != null){ //Si tengo un usersheet lo devuelve
        return; 
 }
       else {  
           try {
           final spreadsheet = await _gsheets.spreadsheet(_spreedsheetId);  //obtengo la spreedsheet
           _userSheet = await _getWorkSheet(spreadsheet , title: 'Usuarios'); //obtengo la hoja usuarios
-
+          _userSheet2 = await _getWorkSheet(spreadsheet , title: 'Carta'); 
           final primeraFila = ModeloUsuario.getDatos(); 
           await _userSheet!.values.insertRow(1, primeraFila); // en la primer fila pongo uid y mail 
  }
@@ -99,8 +100,9 @@ await _userSheet!.values.appendRows(rows); // Añade los valores a la fila
 
 
 
-Future<Spreadsheet> getSpreedsheet() async {
-  return await _gsheets.spreadsheet(_spreedsheetId);
-}
+  
+  Worksheet? getSpreedsheet() {
+    return _userSheet2;
+  }
 
 }

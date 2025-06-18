@@ -3,7 +3,7 @@ import 'package:carta_digital/models/pedido_model.dart';
 import 'package:carta_digital/models/producto.dart';
 
 void main() {
-  final producto = Producto(nombre: 'Agua', precio: 100, categoria: 'bebida');
+  final producto = Producto(nombre: 'Agua', precio: 100, categoria: 'bebida', stock: true);
 
   test('agrega correctamente un producto', () {
     final pedido = PedidoModel();

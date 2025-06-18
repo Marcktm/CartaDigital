@@ -9,7 +9,7 @@ void main() {
     final servicio = PedidoService(pedido); // Lógica
 
     // Simulamos un pedido de 2 empanadas de $100 cada una
-    final producto = Producto(nombre: "Empanada", precio: 100, categoria: "comida");
+    final producto = Producto(nombre: "Empanada", precio: 100, categoria: "comida", stock: true);
     pedido.aumentar(producto, 2);
 
     // Verificamos que el total sea 200
@@ -20,7 +20,7 @@ void main() {
   final pedido = PedidoModel();
   final servicio = PedidoService(pedido);
 
-  final producto = Producto(nombre: "Empanada", precio: 100, categoria: "comida");
+  final producto = Producto(nombre: "Empanada", precio: 100, categoria: "comida", stock: true);
   pedido.aumentar(producto, 2);
 
   final resumen = servicio.generarResumenTexto();
