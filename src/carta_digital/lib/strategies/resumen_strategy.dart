@@ -1,4 +1,3 @@
-import '../models/pedido_model.dart';
 import '../services/pedido_service.dart';
 
 /// Interfaz del patrón Strategy para generar resúmenes
@@ -19,7 +18,7 @@ class ResumenAppStrategy implements ResumenStrategy {
       buffer.writeln('✔️ ${producto.nombre} ($cantidad)');
     });
 
-    buffer.writeln('\n🧾 Total: \$${servicio.calcularTotal().toStringAsFixed(2)}');
+    buffer.writeln('\n🧾 Total con Descuentos (si los tuviera): \$${servicio.calcularTotal().toStringAsFixed(2)}');
     return buffer.toString();
   }
 }

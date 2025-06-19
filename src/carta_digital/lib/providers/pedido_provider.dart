@@ -18,7 +18,7 @@ class PedidoProvider extends ChangeNotifier {
   List<Producto> get empanadas => _empanadas;
   List<Producto> get bebidas => _bebidas;
 
-  ResumenStrategy _estrategiaResumen = ResumenWhatsappStrategy();
+  ResumenStrategy _estrategiaResumen = ResumenAppStrategy();
 
 
   Future<void> cargarProductos() async {
@@ -44,17 +44,23 @@ class PedidoProvider extends ChangeNotifier {
   }
 
   Future<bool> realizarPedido() async {
-  final servicio = PedidoService(_pedido, _estrategiaResumen);
-  final resumen = servicio.generarResumenTexto();
+    cambiarEstrategiaResumen(ResumenWhatsappStrategy());
 
-  try {
-    await WhatsAppService.enviarMensaje(resumen);
-    resetear(); // resetea solo si salió bien
-    return true;
-  } catch (_) {
-    return false;
+    final servicio = PedidoService(_pedido, _estrategiaResumen);
+    final resumen = servicio.generarResumenTexto();
+
+    try {
+      await WhatsAppService.enviarMensaje(resumen);
+      resetear(); 
+      cambiarEstrategiaResumen(ResumenAppStrategy());
+
+      return true;
+    } catch (_) {
+      cambiarEstrategiaResumen(ResumenAppStrategy());
+      return false;
+    }
   }
-  }
+
 
   void cambiarEstrategiaResumen(ResumenStrategy estrategia) {
     _estrategiaResumen = estrategia;
