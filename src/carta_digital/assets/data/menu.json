@@ -1,0 +1,27 @@
+[
+  {
+    "nombre": "Carne Picante",
+    "precio": 1200,
+    "categoria": "comida"
+  },
+  {
+    "nombre": "Carne Suave",
+    "precio": 1200,
+    "categoria": "comida"
+  },
+  {
+    "nombre": "Pollo",
+    "precio": 1200,
+    "categoria": "comida"
+  },
+  {
+    "nombre": "Coca-Cola",
+    "precio": 800,
+    "categoria": "bebida"
+  },
+  {
+    "nombre": "Agua",
+    "precio": 500,
+    "categoria": "bebida"
+  }
+]
