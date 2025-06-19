@@ -2,26 +2,32 @@ name: pipelineccicd
 
 on:
   push:
-    branches: [merginincioconfunciones,develop,main,mergeBeta]
-  
+    branches:
+      - merginincioconfunciones
+      - develop
+      - main
+      - mergeBeta
+
   pull_request:
-    branches: [develop,main]
-    
+    branches:
+      - develop
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkcode
+      - name: Checkout del código
         uses: actions/checkout@v4
 
-      - name: levantarflutter
+      - name: Levantar Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.29.3'
           channel: 'stable'
 
-      - name: Cache Flutter dependencies
+      - name: Cache de dependencias
         uses: actions/cache@v4
         with:
           path: |
@@ -29,7 +35,7 @@ jobs:
           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
           restore-keys: ${{ runner.os }}-pub-
 
-      - name: instalardependencias
+      - name: Instalar dependencias
         run: flutter pub get
         working-directory: src/carta_digital
 
@@ -37,20 +43,20 @@ jobs:
         run: flutter test
         working-directory: src/carta_digital
 
-      - name: Decodificar release keystore
+      - name: Decodificar keystore
         run: echo "${{ secrets.RELEASE_KEYSTORE }}" | base64 -d > src/carta_digital/android/app/release-key.jks
 
-      - name: Exportar variables de entorno para firma
+      - name: Exportar variables de firma
         run: |
           echo "RELEASE_STORE_PASSWORD=${{ secrets.RELEASE_STORE_PASSWORD }}" >> $GITHUB_ENV
           echo "RELEASE_KEY_ALIAS=${{ secrets.RELEASE_KEY_ALIAS }}" >> $GITHUB_ENV
           echo "RELEASE_KEY_PASSWORD=${{ secrets.RELEASE_KEY_PASSWORD }}" >> $GITHUB_ENV
 
-      - name: Cremos la apk
+      - name: Crear APK
         run: flutter build apk --release
         working-directory: src/carta_digital
 
-      - name: subir apk
+      - name: Subir APK generado
         uses: actions/upload-artifact@v4
         with:
           name: app-release.apk
