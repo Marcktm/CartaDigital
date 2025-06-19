@@ -3,7 +3,10 @@ name: pipelineccicd
 on:
   push:
     branches: [merginincioconfunciones,develop,main,mergeBeta]
-
+  
+  pull_request:
+    branches: [develop,main]
+    
 jobs:
   build:
     runs-on: ubuntu-latest
