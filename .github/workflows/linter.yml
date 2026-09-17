@@ -1,0 +1,28 @@
+name: linter
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Levantar Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.3'
+          channel: 'stable'
+
+      - name: Instalar dependencias
+        run: flutter pub get
+        working-directory: src/carta_digital
+
+      - name: Análisis estático (lint)
+        run: flutter analyze
+        working-directory: src/carta_digital
