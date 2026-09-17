@@ -1,0 +1,40 @@
+name: pipelintercicd
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+      
+      - name: Levantar Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.3'
+          channel: 'stable'
+
+      - name: Instalar dependencias
+        run: flutter pub get
+        working-directory: src/carta_digital
+
+      - name: linter analisis
+        run: dart analyze --fatal-infos
+        working-directory: src/carta_digital
+  
+  action-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+      - name: AactionLint
+        uses: reviewdog/action-actionlint@d290e336d5a743810aef4404f757dc862276d2ae # v1.73.4
+        with:
+          fail_level: error
